@@ -1,0 +1,16 @@
+{
+  "images": [
+    {
+      "url": "https://picsum.photos/800/600?random=1",
+      "filename": "sample1.jpg"
+    },
+    {
+      "url": "https://picsum.photos/800/600?random=2", 
+      "filename": "sample2.jpg"
+    },
+    {
+      "url": "https://picsum.photos/800/600?random=3",
+      "filename": "sample3.jpg"
+    }
+  ]
+}

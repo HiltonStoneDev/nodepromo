@@ -1,0 +1,106 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #000;
+    overflow: hidden; /* Prevent scrollbars in fullscreen */
+    height: 100vh;
+}
+
+.container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.image-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* Background blurred image layer */
+.image-layer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-image: inherit;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    filter: blur(50px);
+    transform: scale(1.2); /* Scale up more to hide blur edges */
+    z-index: 1;
+    opacity: 0.25;
+}
+
+.image-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: contain; /* Maintain aspect ratio */
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    z-index: 10;
+    background-image: url(''); /* Will be set by JavaScript */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.image-layer.active {
+    opacity: 1;
+    z-index: 15;
+}
+
+/* The first image sets the container dimensions and is always visible for layout */
+.image-layer:first-child {
+    position: absolute;
+    opacity: 1; /* First image is always visible to establish container size */
+    z-index: 10;
+}
+
+/* When first image becomes active, it should be on top */
+.image-layer:first-child.active {
+    z-index: 15;
+}
+
+/* Loading indicator */
+.loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 24px;
+    z-index: 25;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* Image count indicator */
+.image-info {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 10px 15px;
+    border-radius: 25px;
+    font-size: 16px;
+    z-index: 20;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
