@@ -1,4 +1,12 @@
 {
+  "name": "nodepromo",
+  "version": "1.0.0",
+  "description": "A simple Node.js application using Express to serve a rotating image slideshow",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "sync-images": "node sync-images.js"
+  },
   "dependencies": {
     "express": "^5.1.0"
   }
