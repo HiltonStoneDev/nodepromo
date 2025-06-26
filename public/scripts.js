@@ -32,6 +32,9 @@ async function loadImages() {
         const response = await fetch('/api/images');
         const newImages = await response.json();
         
+        // Hide server offline badge if it exists (server is back online)
+        hideServerOfflineBadge();
+        
         if (newImages.length === 0) {
             showMessage('No images found');
             return;
@@ -51,7 +54,7 @@ async function loadImages() {
         
     } catch (error) {
         console.error('❌ Error fetching images:', error);
-        showMessage('Error loading images');
+        showServerOfflineBadge();
     }
 }
 
@@ -163,6 +166,23 @@ function hideMessage() {
     const loading = document.querySelector('.loading');
     if (loading) {
         loading.style.display = 'none';
+    }
+}
+
+// Show server offline badge
+function showServerOfflineBadge() {
+    const container = document.getElementById('imageContainer');
+    const badge = document.createElement('div');
+    badge.className = 'server-offline-badge';
+    badge.textContent = 'Server Offline';
+    container.appendChild(badge);
+}
+
+// Hide server offline badge
+function hideServerOfflineBadge() {
+    const badge = document.querySelector('.server-offline-badge');
+    if (badge) {
+        badge.remove();
     }
 }
 
