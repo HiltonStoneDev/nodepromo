@@ -221,25 +221,8 @@ async function syncImages() {
     }
 }
 
-// Show usage if no arguments provided
-if (process.argv.length < 3) {
-    console.log('Usage: node sync-images.js <json-url> [base-url]');
-    console.log('');
-    console.log('Arguments:');
-    console.log('  json-url   URL to fetch JSON image list from');
-    console.log('  base-url   Base URL for downloading images (required for file_name format)');
-    console.log('');
-    console.log('Example JSON formats supported:');
-    console.log('1. Simple array: ["http://example.com/image1.jpg", "http://example.com/image2.jpg"]');
-    console.log('2. Object with images array: {"images": [{"url": "http://example.com/image1.jpg", "filename": "img1.jpg"}]}');
-    console.log('3. Object with promos array: {"promos": [{"file_name": "image1.jpg"}]} (requires base-url)');
-    console.log('');
-    console.log('Examples:');
-    console.log('  node sync-images.js https://api.example.com/images.json');
-    console.log('  node sync-images.js https://api.example.com/promos.json https://cdn.example.com/images');
-    console.log('');
+// Start syncing with default parameters if none provided
+syncImages().catch(err => {
+    console.error('Error:', err.message);
     process.exit(1);
-}
-
-// Run the sync
-syncImages();
+});
