@@ -17,7 +17,7 @@ APP_USER="www-data"
 APP_GROUP="www-data"
 NODE_ENV="production"
 PIDFILE="/var/run/nodepromo.pid"
-LOGFILE="/var/log/nodepromo.log"
+LOGFILE="/var/log/nodepromo/nodepromo.log"
 
 # Node.js path
 NODE=/usr/bin/node

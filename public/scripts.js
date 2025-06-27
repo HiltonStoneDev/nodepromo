@@ -8,7 +8,7 @@ let isTransitioning = false;
 
 // Configuration
 const CONFIG = {
-    rotationSpeed: 3000, // 3 seconds per image
+    rotationSpeed: 10000, // 10 seconds per image
     reloadInterval: 30000, // Check for new images every 30 seconds
     transitionDuration: 500 // Half second transition
 };
