@@ -1,28 +1,32 @@
+require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
+const IMAGE_DIR = path.join(__dirname, process.env.IMAGE_DIR || 'public/images');
+const ALLOWED_EXTENSIONS = (process.env.ALLOWED_EXTENSIONS || 'jpg,jpeg,png,gif,webp').split(',');
 
 // Serve static files from public directory
 app.use(express.static('public'));
 
-// Function to get image filenames from public/images directory
+// Function to get image filenames from the images directory
 function getImageFiles() {
-    const imageDir = path.join(__dirname, 'public', 'images');
     try {
-        return fs.readdirSync(imageDir).filter(file => file.match(/\.(jpg|jpeg|png|gif|webp)$/i));
+        const files = fs.readdirSync(IMAGE_DIR);
+        const extPattern = new RegExp(`\\.(${ALLOWED_EXTENSIONS.join('|')})$`, 'i');
+        return files.filter(file => extPattern.test(file));
     } catch (err) {
         console.error('Error reading images directory:', err);
         return [];
     }
 }
 
-// Create public/images directory if it doesn't exist
-const imageDir = path.join(__dirname, 'public', 'images');
-if (!fs.existsSync(imageDir)) {
-    fs.mkdirSync(imageDir, { recursive: true });
+// Create images directory if it doesn't exist
+if (!fs.existsSync(IMAGE_DIR)) {
+    fs.mkdirSync(IMAGE_DIR, { recursive: true });
+    console.log(`Created directory: ${IMAGE_DIR}`);
 }
 
 // Serve the HTML page
@@ -38,5 +42,5 @@ app.get('/api/images', (req, res) => {
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
-    console.log('Place your images in the public/images directory');
+    console.log('Update images with sync-images.js or place into public/images directory');
 });

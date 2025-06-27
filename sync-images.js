@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
 const https = require('https');
@@ -7,11 +8,11 @@ const http = require('http');
 
 // Configuration
 const CONFIG = {
-    jsonUrl: process.argv[2] || 'https://intranet.cocobrooks.com/promos.json/1', // URL to fetch JSON from
-    baseUrl: process.argv[3] || 'https://intranet.cocobrooks.com/storage/promos/', // Base URL for downloading images (if filenames only)
-    imagesDir: path.join(__dirname, 'public', 'images'),
-    timeout: 30000, // 30 seconds timeout for downloads
-    retries: 3
+    jsonUrl: process.env.JSON_URL || 'https://intranet.cocobrooks.com/promos.json/1',
+    baseUrl: process.env.BASE_URL || 'https://intranet.cocobrooks.com/storage/promos/',
+    imagesDir: path.join(__dirname, process.env.IMAGE_DIR || 'public', 'images'),
+    timeout: parseInt(process.env.DOWNLOAD_TIMEOUT) || 30000, // in milliseconds
+    retries: parseInt(process.env.DOWNLOAD_RETRIES) || 3
 };
 
 // Helper function to make HTTP/HTTPS requests

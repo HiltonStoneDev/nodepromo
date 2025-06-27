@@ -8,6 +8,7 @@
     "sync-images": "node sync-images.js"
   },
   "dependencies": {
+    "dotenv": "^17.0.0",
     "express": "^5.1.0"
   }
 }
