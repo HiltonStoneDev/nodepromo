@@ -1,0 +1,128 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:          nodepromo
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: NodePromo service
+# Description:       Service for NodePromo application
+### END INIT INFO
+
+
+# Change these to match your environment
+APP_DIR="/app/nodepromo"
+APP_SCRIPT="server.js"
+APP_USER="www-data"
+APP_GROUP="www-data"
+NODE_ENV="production"
+PIDFILE="/var/run/nodepromo.pid"
+LOGFILE="/var/log/nodepromo.log"
+
+# Node.js path
+NODE=/usr/bin/node
+
+# Get the script name (used for logging)
+NAME=nodepromo
+DESC="NodePromo Service"
+
+# Check if the script is run as root
+if [ "$(id -u)" != "0" ]; then
+    echo "This script must be run as root" 1>&2
+    exit 1
+fi
+
+# Create PID directory if it doesn't exist
+mkdir -p $(dirname $PIDFILE)
+chown $APP_USER:$APP_GROUP $(dirname $PIDFILE)
+
+# Function to check if the service is running
+running() {
+    [ -f $PIDFILE ] && ps -p $(cat $PIDFILE) > /dev/null 2>&1
+}
+
+# Function to start the service
+start() {
+    if running; then
+        echo "$DESC is already running"
+        return 1
+    fi
+    
+    echo -n "Starting $DESC: "
+    cd $APP_DIR
+    sudo -u $APP_USER sh -c "NODE_ENV=$NODE_ENV $NODE $APP_SCRIPT >> $LOGFILE 2>&1 & echo \$! > $PIDFILE"
+    
+    if running; then
+        echo "$NAME."
+    else
+        echo "failed"
+    fi
+}
+
+# Function to stop the service
+stop() {
+    if ! running; then
+        echo "$DESC is not running"
+        return 1
+    fi
+    
+    echo -n "Stopping $DESC: "
+    kill $(cat $PIDFILE)
+    
+    # Wait for the process to terminate
+    for i in 1 2 3 4 5; do
+        if ! running; then
+            break
+        fi
+        echo -n "."
+        sleep 1
+    done
+    echo
+    
+    if running; then
+        echo "$NAME could not be stopped. Force killing..."
+        kill -9 $(cat $PIDFILE)
+        sleep 1
+    fi
+    
+    rm -f $PIDFILE
+    echo "$NAME stopped"
+}
+
+# Function to restart the service
+restart() {
+    stop
+    start
+}
+
+# Function to get status
+status() {
+    if running; then
+        echo "$DESC is running (PID: $(cat $PIDFILE))"
+    else
+        echo "$DESC is not running"
+        return 1
+    fi
+}
+
+# Main script logic
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    restart)
+        restart
+        ;;
+    status)
+        status
+        ;;
+    *)
+        echo "Usage: $0 {start|stop|restart|status}" >&2
+        exit 1
+        ;;
+esac
+
+exit 0
