@@ -8,9 +8,9 @@ const http = require('http');
 
 // Configuration
 const CONFIG = {
-    jsonUrl: process.env.JSON_URL || 'https://intranet.cocobrooks.com/promos.json/1',
-    baseUrl: process.env.BASE_URL || 'https://intranet.cocobrooks.com/storage/promos/',
-    imagesDir: path.join(__dirname, process.env.IMAGE_DIR || 'public', 'images'),
+    jsonUrl: process.env.JSON_URL || 'https://intranet.test/promos.json/1',
+    baseUrl: process.env.BASE_URL || 'https://intranet.test/storage/promos/',
+    imagesDir: path.join(__dirname, process.env.IMAGE_DIR || 'public/images'),
     timeout: parseInt(process.env.DOWNLOAD_TIMEOUT) || 30000, // in milliseconds
     retries: parseInt(process.env.DOWNLOAD_RETRIES) || 3
 };
