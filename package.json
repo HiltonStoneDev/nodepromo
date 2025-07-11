@@ -1,6 +1,6 @@
 {
   "name": "nodepromo",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A simple Node.js application using Express to serve a rotating image slideshow",
   "main": "server.js",
   "scripts": {
