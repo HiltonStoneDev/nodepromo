@@ -154,7 +154,7 @@ To run the sync script every hour via cron:
 crontab -e
 
 # Add this line to run every hour (with base URL for promos format)
-0 * * * * cd /path/to/nodepromo && node sync-images.js https://your-api.com/promos.json https://your-cdn.com/images >> /var/log/nodepromo-sync.log 2>&1
+0 * * * * cd /opt/nodepromo && node sync-images.js https://intranet.cocobrooks.com/promos.json https://intranet.cocobrooks.com/storage/promos/ >> /var/log/nodepromo-sync.log 2>&1
 ```
 
 ## Future Improvements
