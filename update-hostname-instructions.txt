@@ -1,6 +1,6 @@
 run the hostname.sh script as root
 
-sudo ./hostname.sh
+sudo sh hostname.sh
 
 hostname.sh will:
 - prompt for a new hostname
