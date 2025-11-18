@@ -156,8 +156,3 @@ crontab -e
 # Add this line to run every hour (with base URL for promos format)
 0 * * * * cd /opt/nodepromo && node sync-images.js https://intranet.cocobrooks.com/promos.json https://intranet.cocobrooks.com/storage/promos/ >> /var/log/nodepromo-sync.log 2>&1
 ```
-
-## Future Improvements
-- Add image optimization and resizing
-- Implement caching for better performance  
-- Add configuration file support for the sync script
