@@ -122,10 +122,10 @@ function extractImageInfo(imageItem) {
 // Main sync function
 async function syncImages() {
     try {
-        console.log('🔄 Starting image sync...');
-        console.log(`📡 Fetching image list from: ${CONFIG.jsonUrl}`);
+        //console.log('🔄 Starting image sync...');
+        //console.log(`📡 Fetching image list from: ${CONFIG.jsonUrl}`);
         if (CONFIG.baseUrl) {
-            console.log(`🌐 Base URL for downloads: ${CONFIG.baseUrl}`);
+            //console.log(`🌐 Base URL for downloads: ${CONFIG.baseUrl}`);
         }
         
         // Fetch JSON data
@@ -133,19 +133,19 @@ async function syncImages() {
         
         // Parse image list
         const imageList = parseImageList(jsonData);
-        console.log(`📋 Found ${imageList.length} images in the list`);
+        //console.log(`📋 Found ${imageList.length} images in the list`);
         
         // Create images directory if it doesn't exist
         if (!fs.existsSync(CONFIG.imagesDir)) {
             fs.mkdirSync(CONFIG.imagesDir, { recursive: true });
-            console.log('📁 Created images directory');
+            //console.log('📁 Created images directory');
         }
         
         // Get current images in directory
         const currentFiles = fs.readdirSync(CONFIG.imagesDir)
             .filter(file => file.match(/\.(jpg|jpeg|png|gif|webp)$/i));
         
-        console.log(`📂 Current images in directory: ${currentFiles.length}`);
+        //console.log(`📂 Current images in directory: ${currentFiles.length}`);
         
         // Determine which images to download
         const expectedFiles = [];
@@ -170,15 +170,15 @@ async function syncImages() {
         
         // Download new images
         if (downloadTasks.length > 0) {
-            console.log(`⬇️  Downloading ${downloadTasks.length} new images...`);
+            //console.log(`⬇️  Downloading ${downloadTasks.length} new images...`);
             
             for (const task of downloadTasks) {
                 let attempts = 0;
                 while (attempts < CONFIG.retries) {
                     try {
-                        console.log(`  📥 Downloading: ${task.filename}`);
+                        //console.log(`  📥 Downloading: ${task.filename}`);
                         await downloadFile(task.url, task.filePath);
-                        console.log(`  ✅ Downloaded: ${task.filename}`);
+                        //console.log(`  ✅ Downloaded: ${task.filename}`);
                         break;
                     } catch (err) {
                         attempts++;
@@ -193,21 +193,21 @@ async function syncImages() {
                 }
             }
         } else {
-            console.log('✅ All images are up to date');
+            //console.log('✅ All images are up to date');
         }
         
         // Remove images not in the list
         const filesToRemove = currentFiles.filter(file => !expectedFiles.includes(file));
         
         if (filesToRemove.length > 0) {
-            console.log(`🗑️  Removing ${filesToRemove.length} obsolete images...`);
+            //console.log(`🗑️  Removing ${filesToRemove.length} obsolete images...`);
             for (const file of filesToRemove) {
                 const filePath = path.join(CONFIG.imagesDir, file);
                 fs.unlinkSync(filePath);
-                console.log(`  🗑️  Removed: ${file}`);
+                //console.log(`  🗑️  Removed: ${file}`);
             }
         } else {
-            console.log('✅ No obsolete images to remove');
+            //console.log('✅ No obsolete images to remove');
         }
         
         // Final summary
