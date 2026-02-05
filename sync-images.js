@@ -9,7 +9,6 @@ const http = require('http');
 // Configuration
 const CONFIG = {
     jsonUrl: process.env.JSON_URL || 'https://intranet.cocobrooks.com/promos.json/1',
-    baseUrl: process.env.BASE_URL || 'https://intranet.cocobrooks.com/storage/promos/',
     imagesDir: path.join(__dirname, process.env.IMAGE_DIR || 'public/images'),
     timeout: parseInt(process.env.DOWNLOAD_TIMEOUT) || 30000, // in milliseconds
     retries: parseInt(process.env.DOWNLOAD_RETRIES) || 3
@@ -97,23 +96,19 @@ function extractImageInfo(imageItem) {
     let imageUrl, filename;
     
     if (typeof imageItem === 'string') {
-        // Simple string URL
+        // Simple string URL (full URL)
         imageUrl = imageItem;
         filename = getFilenameFromUrl(imageUrl);
     } else if (imageItem.url) {
-        // Object with URL
+        // Object with URL (full URL)
         imageUrl = imageItem.url;
         filename = imageItem.filename || getFilenameFromUrl(imageUrl);
-    } else if (imageItem.file_name) {
-        // Object with file_name (your format)
-        filename = imageItem.file_name;
-        if (CONFIG.baseUrl) {
-            imageUrl = CONFIG.baseUrl.endsWith('/') ? CONFIG.baseUrl + filename : CONFIG.baseUrl + '/' + filename;
-        } else {
-            throw new Error(`file_name format requires a base URL. Please provide base URL as second argument.`);
-        }
+    } else if (imageItem.image_url) {
+        // Object with image_url (full URL)
+        imageUrl = imageItem.image_url;
+        filename = imageItem.filename || getFilenameFromUrl(imageUrl);
     } else {
-        throw new Error('Invalid image item format');
+        throw new Error('Invalid image item format. Expected string URL or object with url/image_url property');
     }
     
     return { imageUrl, filename };
@@ -124,9 +119,6 @@ async function syncImages() {
     try {
         //console.log('🔄 Starting image sync...');
         //console.log(`📡 Fetching image list from: ${CONFIG.jsonUrl}`);
-        if (CONFIG.baseUrl) {
-            //console.log(`🌐 Base URL for downloads: ${CONFIG.baseUrl}`);
-        }
         
         // Fetch JSON data
         const jsonData = await fetchJson(CONFIG.jsonUrl);
