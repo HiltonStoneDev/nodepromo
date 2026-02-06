@@ -107,8 +107,12 @@ function extractImageInfo(imageItem) {
         // Object with image_url (full URL)
         imageUrl = imageItem.image_url;
         filename = imageItem.filename || getFilenameFromUrl(imageUrl);
+    } else if (imageItem.file_name) {
+        // Object with file_name (now expecting full URL)
+        imageUrl = imageItem.file_name;
+        filename = getFilenameFromUrl(imageUrl);
     } else {
-        throw new Error('Invalid image item format. Expected string URL or object with url/image_url property');
+        throw new Error('Invalid image item format. Expected string URL or object with url/image_url/file_name property');
     }
     
     return { imageUrl, filename };
