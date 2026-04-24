@@ -24,8 +24,13 @@ fi
 
 # Add nodepromo directory to git config
 echo "Adding nodepromo directory to git config and pulling latest..."
-git config --global --add safe.directory /opt/nodepromo
-sudo -u www-data git pull
+sudo git config --global --add safe.directory /opt/nodepromo
+sudo -u www-data git config --global --add safe.directory /opt/nodepromo
+
+# Ensure the repo is owned by www-data so it can write git objects
+sudo chown -R www-data:www-data /opt/nodepromo
+
+sudo -u www-data git -C /opt/nodepromo pull
 # Remove Chromium singleton files
 echo "Removing Chromium singleton files..."
 rm -f /home/odroid/.config/chromium/Singleton*
