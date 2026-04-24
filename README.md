@@ -151,8 +151,9 @@ The script supports multiple JSON formats:
 To run the sync script every hour via cron:
 ```bash
 # Edit crontab
-crontab -e
+sudo crontab -e
 
-# Add this line to run every hour (with base URL for promos format)
-0 * * * * cd /opt/nodepromo && node sync-images.js https://intranet.cocobrooks.com/promos.json https://intranet.cocobrooks.com/storage/promos/ >> /var/log/nodepromo-sync.log 2>&1
-```
+# Add this line to run every 5 minutes (with base URL for promos format)
+*/5 * * * * cd /opt/nodepromo && node sync-images.js >> /var/log/nodepromo-sync.log 2>&1
+
+
