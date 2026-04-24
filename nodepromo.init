@@ -36,6 +36,11 @@ fi
 mkdir -p $(dirname $PIDFILE)
 chown $APP_USER:$APP_GROUP $(dirname $PIDFILE)
 
+# Ensure log file exists and is writable by the service user
+mkdir -p $(dirname $LOGFILE)
+touch $LOGFILE
+chown $APP_USER:$APP_GROUP $LOGFILE
+
 # Function to check if the service is running
 running() {
     [ -f $PIDFILE ] && ps -p $(cat $PIDFILE) > /dev/null 2>&1
