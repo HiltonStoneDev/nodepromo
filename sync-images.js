@@ -159,7 +159,7 @@ async function syncImages() {
                     downloadTasks.push({ url: imageUrl, filename, filePath });
                 }
             } catch (err) {
-                console.warn('⚠️  Skipping invalid image item:', imageItem, '-', err.message);
+                console.warn('Skipping invalid image item:', imageItem, '-', err.message);
                 continue;
             }
         }
@@ -178,11 +178,11 @@ async function syncImages() {
                         break;
                     } catch (err) {
                         attempts++;
-                        console.error(`  ❌ Failed to download ${task.filename} (attempt ${attempts}): ${err.message}`);
+                        console.error(`  Failed to download ${task.filename} (attempt ${attempts}): ${err.message}`);
                         if (attempts >= CONFIG.retries) {
-                            console.error(`  🚫 Giving up on ${task.filename} after ${CONFIG.retries} attempts`);
+                            console.error(`  Giving up on ${task.filename} after ${CONFIG.retries} attempts`);
                         } else {
-                            console.log(`  🔄 Retrying ${task.filename}...`);
+                            console.log(`  Retrying ${task.filename}...`);
                             await new Promise(resolve => setTimeout(resolve, 1000)); // Wait 1 second before retry
                         }
                     }
@@ -210,10 +210,10 @@ async function syncImages() {
         const finalFiles = fs.readdirSync(CONFIG.imagesDir)
             .filter(file => file.match(/\.(jpg|jpeg|png|gif|webp)$/i));
         
-        console.log(`🎉 Sync completed! Images in directory: ${finalFiles.length}`);
+        console.log(`Sync completed! Images in directory: ${finalFiles.length}`);
         
     } catch (error) {
-        console.error('💥 Sync failed:', error.message);
+        console.error('Sync failed:', error.message);
         process.exit(1);
     }
 }
