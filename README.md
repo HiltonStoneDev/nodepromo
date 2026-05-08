@@ -148,12 +148,14 @@ The script supports multiple JSON formats:
 - Supports WebP, JPG, PNG, and GIF formats
 
 ## Update Source files
-cd /opt/nodepromo
-sudo -u www-data git pull
+cd /opt/nodepromo && sudo -u www-data git pull
 
 ### Cron Setup (Production)
 To run the sync script every 5 minutes via cron:
 ```bash
+
+sudo touch /var/log/nodepromo-sync.log && sudo chown www-data:www-data /var/log/nodepromo-sync.log
+
 # Edit crontab
 sudo -u www-data crontab -e
 
