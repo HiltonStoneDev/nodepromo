@@ -147,6 +147,16 @@ The script supports multiple JSON formats:
 - Includes retry logic for failed downloads
 - Supports WebP, JPG, PNG, and GIF formats
 
+## Reduce weston logging
+```bash
+sudo nano /etc/weston.ini
+```
+Add or modify:
+```
+[core]
+debug=false
+```
+
 ## Update Source files
 cd /opt/nodepromo && sudo -u www-data git pull
 
