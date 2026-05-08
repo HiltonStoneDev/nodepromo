@@ -4,8 +4,13 @@
 
 # Add nodepromo directory to git config
 echo "Adding nodepromo directory to git config and pulling latest..."
-sudo git config --global --add safe.directory /opt/nodepromo
-sudo -u www-data git config --global --add safe.directory /opt/nodepromo
+sudo git config --system --add safe.directory /opt/nodepromo
+
+# Ensure www-data has a usable HOME directory (some systems lack /var/www)
+if [ ! -d /var/www ]; then
+    sudo mkdir -p /var/www
+    sudo chown www-data:www-data /var/www
+fi
 
 # Ensure the repo is owned by www-data so it can write git objects
 sudo chown -R www-data:www-data /opt/nodepromo
