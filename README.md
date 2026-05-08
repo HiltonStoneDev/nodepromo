@@ -147,13 +147,16 @@ The script supports multiple JSON formats:
 - Includes retry logic for failed downloads
 - Supports WebP, JPG, PNG, and GIF formats
 
+## Update Source files
+cd /opt/nodepromo
+sudo -u www-data git pull
+
 ### Cron Setup (Production)
-To run the sync script every hour via cron:
+To run the sync script every 5 minutes via cron:
 ```bash
 # Edit crontab
-sudo crontab -e
+sudo -u www-data crontab -e
 
 # Add this line to run every 5 minutes (with base URL for promos format)
-*/5 * * * * cd /opt/nodepromo && node sync-images.js >> /var/log/nodepromo-sync.log 2>&1
-
+*/5 * * * *  cd /opt/nodepromo && /usr/bin/node /opt/nodepromo/sync-images.js >> /var/log/nodepromo-sync.log 2>&1
 
