@@ -169,6 +169,5 @@ sudo touch /var/log/nodepromo-sync.log && sudo chown www-data:www-data /var/log/
 # Edit crontab
 sudo -u www-data crontab -e
 
-# Add this line to run every 5 minutes (with base URL for promos format)
+# Add this line to run every 5 minutes
 */5 * * * *  cd /opt/nodepromo && /usr/bin/node /opt/nodepromo/sync-images.js >> /var/log/nodepromo-sync.log 2>&1
-
